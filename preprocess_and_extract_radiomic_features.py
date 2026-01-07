@@ -30,12 +30,42 @@ RADIOMICS_FILES = [
 
 
 def run_cmd(cmd, verbose=False):
+    """
+    Runs a command in a subprocess and returns its output.
+
+    Parameters
+    ----------
+    cmd : list
+        List of strings representing the command to be run.
+    verbose : bool, optional
+        If True, prints the command before running it.
+
+    Returns
+    -------
+    output : bytes
+        The output of the command.
+    """
     if verbose:
         print(" ".join(cmd))
     return sp.check_output(cmd)
 
 
 def reorient_to_std(file_, overwrite=False):
+    """
+    Reorients a NIfTI image to the standard orientation.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to the input NIfTI image.
+    overwrite : bool, optional
+        If True, overwrite the output file if it already exists.
+
+    Returns
+    -------
+    out : str
+        Path to the reoriented output NIfTI image.
+    """
     out = file_.replace(".nii.gz", "_r2s.nii.gz")
     if overwrite or not os.path.exists(out):
         run_cmd(["fslreorient2std", file_, out])
@@ -43,6 +73,23 @@ def reorient_to_std(file_, overwrite=False):
 
 
 def register_to_ref(file_, ref, overwrite=False):
+    """
+    Registers an image to a reference using FLIRT.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to the input NIfTI image.
+    ref : str
+        Path to the reference NIfTI image.
+    overwrite : bool, optional
+        If True, overwrite the output file if it already exists.
+
+    Returns
+    -------
+    out : str
+        Path to the registered output NIfTI image.
+    """
     out = file_.replace(".nii.gz", "_reg.nii.gz")
     mat = file_.replace(".nii.gz", "_reg.mat")
     if overwrite or not os.path.exists(out):
@@ -54,6 +101,27 @@ def register_to_ref(file_, ref, overwrite=False):
     return out
 
 def preprocess_modalities(inputs, output_dir, overwrite=False, verbose=False):
+    """
+    Preprocesses a list of modalities by reorienting them to the standard orientation, 
+    registering them to the modality with the smallest spacing, and saving the 
+    resulting registered images and their corresponding masks.
+
+    Parameters
+    ----------
+    inputs : list of str
+        List of paths to the input NIfTI images.
+    output_dir : str
+        Path to the output directory.
+    overwrite : bool, optional
+        If True, overwrite the output files if they already exist.
+    verbose : bool, optional
+        If True, prints the commands before running them.
+
+    Returns
+    -------
+    reg_files : list of str
+        List of paths to the registered output NIfTI images.
+    """
     os.makedirs(output_dir, exist_ok=True)
     os.chdir(output_dir)
 
@@ -92,6 +160,18 @@ def preprocess_modalities(inputs, output_dir, overwrite=False, verbose=False):
 
 
 def run_segmentation(files, overwrite=False, verbose=False):
+    """
+    Runs the segmentation algorithm using the input files and saves the result to "segmentation.nii.gz".
+
+    Parameters
+    ----------
+    files : list of str
+        List of paths to the input NIfTI images.
+    overwrite : bool, optional
+        If True, overwrite the output file if it already exists.
+    verbose : bool, optional
+        If True, prints the command before running it.
+    """
     if overwrite or not os.path.exists("segmentation.nii.gz"):
         run_cmd([
             "hd_glio_predict",
@@ -108,6 +188,20 @@ def run_segmentation(files, overwrite=False, verbose=False):
         nib.save(nib.Nifti1Image(data, img.affine), "segmentation.nii.gz")
 
 def extract_radiomics(output_dir, param_file):
+    """
+    Extracts radiomic features from the input images and saves the results to a CSV file.
+
+    Parameters
+    ----------
+    output_dir : str
+        Path to the output directory.
+    param_file : str
+        Path to the parameter file for the feature extractor.
+
+    Returns
+    -------
+    None
+    """
     extractor = featureextractor.RadiomicsFeatureExtractor(param_file)
     results = []
 
@@ -131,6 +225,30 @@ def extract_radiomics(output_dir, param_file):
 
 
 def main():
+    """
+    Main function of the program.
+
+    It parses the command line arguments using argparse, sets the environment variable
+    CUDA_VISIBLE_DEVICES to the specified device, and calls the preprocess_modalities,
+    run_segmentation, and extract_radiomics functions.
+
+    Parameters
+    ----------
+    -i, --input_dir : str
+        Path to the input directory containing the 4 input modalities.
+    -o, --output_dir : str, optional
+        Path to the output directory where the results will be saved.
+    --overwrite : bool, optional
+        If True, overwrite the output files if they already exist.
+    --verbose : bool, optional
+        If True, print the commands before running them.
+    --device : str, optional
+        Index of the CUDA device to use.
+
+    Returns
+    -------
+    None
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--input_dir", required=True)
     parser.add_argument("-o", "--output_dir", default=None)
