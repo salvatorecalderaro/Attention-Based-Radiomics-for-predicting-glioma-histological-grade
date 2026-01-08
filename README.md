@@ -28,6 +28,6 @@ Feature extraction is performed using PyRadiomics with the following settings:
 - Voxel array shift: 300 (to avoid negative values)
 - Isotropic resampling: voxel spacing = [1,1,1] mm
 
-Each image is represented by a radiomic feature vector of 107 dimensions. With four scans per patient and two segmentations per scan, each patient has 8 feature vectors, forming a matrix P \in \mathbb{R}^{8 \times 107}.
+Each image is represented by a radiomic feature vector of 107 dimensions. With four scans per patient and two segmentations per scan, each patient has 8 feature vectors, forming a matrix $P \in \mathbb{R}^{8 \times 107}$.
 
 These vectors can be used as input for downstream predictive models (e.g., classification or outcome prediction).
