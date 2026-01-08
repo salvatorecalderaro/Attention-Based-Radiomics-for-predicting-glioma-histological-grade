@@ -23,9 +23,9 @@ Radiomics converts imaging information into high-dimensional quantitative descri
 3. Texture-based features – spatial arrangements and intensity dependencies
 
 Feature extraction is performed using PyRadiomics with the following settings:
--Gray-level discretization: bin width = 5
--Intensity normalization: scale factor = 100
--Voxel array shift: 300 (to avoid negative values)
+- Gray-level discretization: bin width = 5
+- Intensity normalization: scale factor = 100
+- Voxel array shift: 300 (to avoid negative values)
 - Isotropic resampling: voxel spacing = [1,1,1] mm
 
 Each image is represented by a radiomic feature vector of 107 dimensions. With four scans per patient and two segmentations per scan, each patient has 8 feature vectors, forming a matrix P \in \mathbb{R}^{8 \times 107}.
