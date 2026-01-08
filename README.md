@@ -4,3 +4,5 @@ This repository presents an innovative deep learning framework for predicting th
 
 An overview of the pipeline is reported below:
 ![Pipeline overview](pipeline.png)
+
+## Pre-Processing and extraction of radiomic features
