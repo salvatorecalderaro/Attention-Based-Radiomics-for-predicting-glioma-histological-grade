@@ -7,13 +7,13 @@ An overview of the pipeline is reported below:
 
 # Pre-Processing and Radiomic Feature Extraction
 MRI scans are pre-processed to ensure consistent orientation, spatial alignment, and removal of non-brain structures. Steps include:
-	1.	Reorientation to FSL RAS convention
-	2.	Brain extraction using HD-BET
-	3.	Multimodal co-registration, selecting the highest-resolution sequence as reference
-	4.	Brain masking to remove interpolation artifacts
+1.	Reorientation to FSL RAS convention
+2.	Brain extraction using HD-BET
+3.	Multimodal co-registration, selecting the highest-resolution sequence as reference
+4.	Brain masking to remove interpolation artifacts
 After pre-processing, images are automatically segmented using HD-GLIO-AUTO (nnU-Net–based) on T1, contrast-enhanced T1, T2, and FLAIR sequences. Two tumor masks are generated:
-	•	Contrast-enhancing regions (active tumor core)
-	•	Non-enhancing regions (infiltrative tumor and edema)
+- Contrast-enhancing regions (active tumor core)
+- Non-enhancing regions (infiltrative tumor and edema)
 
 Radiomics converts imaging information into high-dimensional quantitative descriptors characterizing morphology, intensity statistics, and texture. Features are grouped into:
 	1.	Shape-based features – 3D geometry of the lesion
