@@ -5,7 +5,27 @@ This repository presents an innovative deep learning framework for predicting th
 An overview of the pipeline is reported below:
 ![Pipeline overview](pipeline.png)
 
-## Pre-Processing and extraction of radiomic features
-All images undergo a standardized pre-processing pipeline to ensure consistent orientation, spatial alignment, and removal of non-brain structures. Volumes are first reoriented to the FSL RAS convention. Brain extraction is then performed using HD-BET to remove extra-cranial tissues. For each subject, multimodal images are co-registered by selecting the sequence with the highest spatial resolution as the reference. After registration, brain masking is reapplied to eliminate interpolation artifacts. The resulting images are fully aligned, anonymized, and ready for downstream segmentation. 
+# Pre-Processing and Radiomic Feature Extraction
+MRI scans are pre-processed to ensure consistent orientation, spatial alignment, and removal of non-brain structures. Steps include:
+	1.	Reorientation to FSL RAS convention
+	2.	Brain extraction using HD-BET
+	3.	Multimodal co-registration, selecting the highest-resolution sequence as reference
+	4.	Brain masking to remove interpolation artifacts
+After pre-processing, images are automatically segmented using HD-GLIO-AUTO (nnU-Net–based) on T1, contrast-enhanced T1, T2, and FLAIR sequences. Two tumor masks are generated:
+	•	Contrast-enhancing regions (active tumor core)
+	•	Non-enhancing regions (infiltrative tumor and edema)
 
-MRI scans are automatically segmented using HD-GLIO-AUTO (nnU-Net–based), processing T1, contrast-enhanced T1, T2, and FLAIR sequences. The pipeline outputs two tumor masks: contrast-enhancing regions (active tumor core) and non-enhancing regions (infiltrative tumor and edema), providing accurate and reproducible ROIs for downstream analysis.
+Radiomics converts imaging information into high-dimensional quantitative descriptors characterizing morphology, intensity statistics, and texture. Features are grouped into:
+	1.	Shape-based features – 3D geometry of the lesion
+	2.	First-order statistics – distribution of voxel intensities
+	3.	Texture-based features – spatial arrangements and intensity dependencies
+
+Feature extraction is performed using PyRadiomics with the following settings:
+	•	Gray-level discretization: bin width = 5
+	•	Intensity normalization: scale factor = 100
+	•	Voxel array shift: 300 (to avoid negative values)
+	•	Isotropic resampling: voxel spacing = [1,1,1] mm
+
+Each image is represented by a radiomic feature vector of 107 dimensions. With four scans per patient and two segmentations per scan, each patient has 8 feature vectors, forming a matrix P \in \mathbb{R}^{8 \times 107}.
+
+These vectors can be used as input for downstream predictive models (e.g., classification or outcome prediction).
