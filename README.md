@@ -106,4 +106,4 @@ python test_all_UCSF.py -c binary or multiclass
 ## Contact 
 For questions, feedback, or collaboration opportunities, please contact:
 
-📧 salvatore.calderaro01[at]unipa[dot]it
+📧 salvatore.calderaro01@unipa.it
