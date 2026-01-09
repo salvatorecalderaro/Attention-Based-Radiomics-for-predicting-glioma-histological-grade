@@ -59,15 +59,19 @@ Ensure all tools are correctly installed and available in your system `PATH`.
 
 This script performs preprocessing, automatic tumor segmentation, and radiomic feature extraction from multimodal MRI data.
 
+## Usage
+
+This pipeline performs MRI preprocessing, automatic tumor segmentation, and radiomic feature extraction from multimodal brain MRI data.
+
 ### Input Requirements
-The input directory must contain the following NIfTI files:
+The input directory must contain the following NIfTI files corresponding to a single patient:
 
 - `T1.nii.gz`
 - `CT1.nii.gz` (contrast-enhanced T1)
 - `T2.nii.gz`
 - `FLAIR.nii.gz`
 
-All images must be in the same directory and correspond to the same patient.
+All images must be spatially aligned and stored in the same directory.
 
 ### Running the Pipeline
 ```bash
@@ -76,4 +80,3 @@ python run_pipeline.py \
   -o /path/to/output_directory \
   --device 0 \
   --verbose
-```
