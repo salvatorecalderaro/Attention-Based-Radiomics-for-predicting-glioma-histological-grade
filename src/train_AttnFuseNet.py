@@ -340,7 +340,8 @@ def evaluate_model(t, targets, predictions, proba):
         
         # Sensitivity / Recall
         recall = recall_score(targets, predictions, pos_label=1)
-        # Specificity: consideriamo la classe 0 come "positiva" per il calcolo del recall
+        
+        # Specificity
         spec = recall_score(targets, predictions, pos_label=0)
         
         # Balanced Accuracy
@@ -407,7 +408,7 @@ def evaluate_model(t, targets, predictions, proba):
 
         reports["f1_per_class"] = f1_per_class.tolist()
         reports["sensitivity_per_class"] = recall_per_class.tolist()
-        reports["specificity_per_class"] = spec_per_class
+        reports["specificity_per_class"] = [float(x) for x in spec_per_class]
         reports["auc_per_class"] = auc_per_class.tolist()
 
         reports["f1_micro"] = float(f1_micro)
@@ -423,7 +424,7 @@ def evaluate_model(t, targets, predictions, proba):
         yaml.dump(reports, file)
     return
 
-def plot_roc_curve(t, targets, proba, predictions):
+def plot_roc_curve(t, targets, proba):
 
     """
     Plot the ROC curve of a binary or multiclass classification task.
@@ -538,8 +539,9 @@ def main():
         preds, probs = predict_multiclass(device, model, test_loader)
     
     evaluate_model(t, test_data[1], preds, probs)
-    plot_roc_curve(t, test_data[1], probs, preds)
+    plot_roc_curve(t, test_data[1], probs)
     print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    return
 
 if __name__ == "__main__":
     main()
