@@ -87,11 +87,23 @@ python run_pipeline.py \
 - `--device`: Index of the CUDA device to use (default: 0).
 - `--verbose`: Print the commands before running them (default: False).
 
-### Model Training and Evaluation on UCSF-PDGM Dataset
+#### Model Training and Evaluation on UCSF-PDGM Dataset
 ```bash
 python train_AttnFuseNet.py -c binary or multiclass 
 ```
 
 - `-c` or `--classification`: Type of classification task to perform (either "binary" or "multiclass").
 
-Note: The model is trained  and tested using the UCSF-PDGM radiomic features extracted and stored in /data/UCSF-PDGM_features.csv.
+Note: The model is trained  and tested using the UCSF-PDGM radiomic features extracted and stored in /data/UCSF_features.csv.
+
+### To evaluate the model on the whole UCSF-PDGM dataset
+```bash
+python test_all_UCSF.py -c binary or multiclass 
+```
+
+- `-c` or `--classification`: Type of classification task to perform (either "binary" or "multiclass").
+
+## Contact 
+For questions, feedback, or collaboration opportunities, please contact:
+
+📧 salvatore.calderaro01[at]unipa[dot]it
