@@ -24,7 +24,7 @@ The proposed pipeline integrates deep learning and radiomics to provide an accur
 
 ## Radiomic Features
 Radiomic features are extracted following standardized definitions and include:
-- First-order intensity statistics
+- First-order statistics
 - Texture features (GLCM, GLRLM, GLSZM)
 - Shape and morphological descriptors
 
