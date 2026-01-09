@@ -73,7 +73,7 @@ The input directory must contain the following NIfTI files corresponding to a si
 
 All images must be spatially aligned and stored in the same directory.
 
-### Running the Pipeline
+### Running the Pipeline for Preprocessing, Segmentation, and Feature Extraction
 ```bash
 python run_pipeline.py \
   -i /path/to/input_directory \
@@ -86,3 +86,12 @@ python run_pipeline.py \
 - `-o` or `--output_dir`: Path to the output directory where the results will be saved.
 - `--device`: Index of the CUDA device to use (default: 0).
 - `--verbose`: Print the commands before running them (default: False).
+
+### Model Training and Evaluation on UCSF-PDGM Dataset
+```bash
+python train_AttnFuseNet.py -c binary or multiclass 
+```
+
+- `-c` or `--classification`: Type of classification task to perform (either "binary" or "multiclass").
+
+Note: The model is trained  and tested using the UCSF-PDGM radiomic features extracted and stored in /data/UCSF-PDGM_features.csv.
