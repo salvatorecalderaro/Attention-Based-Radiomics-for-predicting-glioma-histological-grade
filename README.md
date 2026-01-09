@@ -31,3 +31,8 @@ Feature extraction is performed using PyRadiomics with the following settings:
 Each image is represented by a radiomic feature vector of 107 dimensions. With four scans per patient and two segmentations per scan, each patient has 8 feature vectors, forming a matrix $P \in \mathbb{R}^{8 \times 107}$.
 
 These vectors can be used as input for downstream predictive models (e.g., classification or outcome prediction).
+
+To perform these steps it is essential to install the following dependencies:
+- 	FSL (for image reorientation and registration)
+- 	HD-BET – Brain extraction
+-  HD-GLIO-AUTO – Fully automatic glioma segmentation (nnU-Net based)
