@@ -12,6 +12,8 @@ The proposed pipeline integrates deep learning and radiomics to provide an accur
 4. Attention-based classification network
 5. Model evaluation and external validation
 
+![Pipeline overview](pipeline.png)
+
 ## Datasets
 - **UCSF-PDGM Dataset**  
   Publicly available dataset for glioma imaging and molecular analysis  
