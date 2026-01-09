@@ -80,3 +80,9 @@ python run_pipeline.py \
   -o /path/to/output_directory \
   --device 0 \
   --verbose
+````
+
+- `-i` or `--input_dir`: Path to the input directory containing the input NIfTI files.
+- `-o` or `--output_dir`: Path to the output directory where the results will be saved.
+- `--device`: Index of the CUDA device to use (default: 0).
+- `--verbose`: Print the commands before running them (default: False).
