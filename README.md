@@ -48,11 +48,32 @@ By combining deep learning with interpretable radiomic features, the proposed ap
 - PyTorch
 - NumPy
 - Scikit-learn
-- PyRadiomics
+- PyRadiomics 
 - Nibabel
-- FSL 
-- HD-BET
-- HD-GLO-AUTO
+- FSL 👉 https://fsl.fmrib.ox.ac.uk/fsl/docs/
+- HD-BET 👉 https://github.com/MIC-DKFZ/HD-BET 
+- HD-GLO-AUTO 👉 https://github.com/CCI-Bonn/HD-GLIO
+
+Ensure all tools are correctly installed and available in your system `PATH`.
 
 
-## Usage
+This script performs preprocessing, automatic tumor segmentation, and radiomic feature extraction from multimodal MRI data.
+
+### Input Requirements
+The input directory must contain the following NIfTI files:
+
+- `T1.nii.gz`
+- `CT1.nii.gz` (contrast-enhanced T1)
+- `T2.nii.gz`
+- `FLAIR.nii.gz`
+
+All images must be in the same directory and correspond to the same patient.
+
+### Running the Pipeline
+```bash
+python run_pipeline.py \
+  -i /path/to/input_directory \
+  -o /path/to/output_directory \
+  --device 0 \
+  --verbose
+```
