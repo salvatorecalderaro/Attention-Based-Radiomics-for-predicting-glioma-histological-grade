@@ -44,18 +44,18 @@ By combining deep learning with interpretable radiomic features, the proposed ap
 - Early risk stratification and preventive clinical decision-making
 
 ## Requirements
-- Python >= 3.8
-- PyTorch
-- NumPy
-- Scikit-learn
-- PyRadiomics 
-- Nibabel
 - FSL 👉 https://fsl.fmrib.ox.ac.uk/fsl/docs/
 - HD-BET 👉 https://github.com/MIC-DKFZ/HD-BET 
 - HD-GLO-AUTO 👉 https://github.com/CCI-Bonn/HD-GLIO
 
 Ensure all tools are correctly installed and available in your system `PATH`.
 
+
+To install all the Python dependencies, run the following command:
+
+```bash
+pip install -r requirements.txt
+```
 
 This script performs preprocessing, automatic tumor segmentation, and radiomic feature extraction from multimodal MRI data.
 
