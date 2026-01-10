@@ -31,8 +31,8 @@ Radiomic features are extracted following standardized definitions and include:
 ## Model
 The classification framework employs:
 - Attention mechanisms to weight informative radiomic features
-- Fully connected layers for grade prediction
-- Cross-entropy loss for multiclass classification
+- Convolutional layers to capture local patterns and interactions among radiomic features
+- MLP for final classification
 
 ## Results
 Experimental results on the UCSF-PDGM dataset and an independent clinical cohort demonstrate performance comparable to existing baselines, while offering enhanced interpretability through radiomic feature analysis.
