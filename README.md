@@ -16,7 +16,7 @@ The proposed pipeline integrates deep learning and radiomics to provide an accur
 
 ## Datasets
 - **UCSF-PDGM Dataset**  
-  Publicly available dataset for glioma imaging and molecular analysis  
+  Publicly available dataset for glioma grading
   👉 https://www.cancerimagingarchive.net/collection/ucsf-pdgm/
 
 - **External Clinical Cohort**  
