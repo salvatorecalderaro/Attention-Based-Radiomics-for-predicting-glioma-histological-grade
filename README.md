@@ -56,9 +56,6 @@ To install all the Python dependencies, run the following command:
 ```bash
 pip install -r requirements.txt
 ```
-
-This script performs preprocessing, automatic tumor segmentation, and radiomic feature extraction from multimodal MRI data.
-
 ## Usage
 
 This pipeline performs MRI preprocessing, automatic tumor segmentation, and radiomic feature extraction from multimodal brain MRI data.
