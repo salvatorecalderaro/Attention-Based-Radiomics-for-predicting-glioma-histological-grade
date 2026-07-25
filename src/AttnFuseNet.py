@@ -199,7 +199,7 @@ def train_multiclass(device, model, trainloader, epochs, lr):
 
     print("Training complete.")
     path = "../models/AttnFuseNet_multiclass.pt"
-    #torch.save(model.state_dict(), path)
+    torch.save(model.state_dict(), path)
     return model
 
 def predict_binary(device, model, testloader):
