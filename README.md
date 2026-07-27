@@ -98,7 +98,7 @@ Note: The model is trained  and tested using the UCSF-PDGM radiomic features ext
 python test_all_UCSF.py -c binary or multiclass 
 ```
 
-- `-c` or `--classification`: Type of classification task to perform (either "binary" or "multiclass").
+- `-t` or `--task`: Type of classification task to perform (either "binary" or "multiclass").
 
 ## Contact 
 For questions, feedback, or collaboration opportunities, please contact:
