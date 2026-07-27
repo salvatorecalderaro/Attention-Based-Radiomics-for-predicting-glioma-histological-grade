@@ -93,6 +93,14 @@ python train_AttnFuseNet.py -c binary or multiclass
 
 Note: The model is trained  and tested using the UCSF-PDGM radiomic features extracted and stored in /data/UCSF_features.csv.
 
+
+### To evaluate the model on the  UCSF-PDGM test set
+```bash
+python test_UCSF_testset.py -c binary or multiclass 
+```
+
+- `-c` or `--classification`: Type of classification task to perform (either "binary" or "multiclass").
+
 ### To evaluate the model on the whole UCSF-PDGM dataset
 ```bash
 python test_all_UCSF.py -c binary or multiclass 
