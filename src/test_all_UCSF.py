@@ -331,10 +331,9 @@ def evaluate_model(t, targets, predictions, proba):
 
     # Confusion matrix
     print(f"Confusion matrix:\n{cm}")
-    reports["confusion_matrix"] = cm.tolist()
 
     # Salvataggio YAML
-    path = f"../results/results_{t}.yaml"
+    path = f"../results/results_all_{t}.yaml"
     with open(path, 'w') as file:
         yaml.dump(reports, file)
 

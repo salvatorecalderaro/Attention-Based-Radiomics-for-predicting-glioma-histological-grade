@@ -322,60 +322,44 @@ def plot_data_dist(y_train, y_test, t):
 
 def evaluate_model(t, targets, predictions, proba):
     """
-    Evaluate model performance.
-
-    Parameters:
-    t (str): Type of classification task ("binary" or "multiclass").
-    targets (numpy array): True labels.
-    predictions (numpy array): Predicted labels.
-    proba (numpy array): Predicted probabilities.
-
-    Returns:
-    dict: A dictionary containing the evaluation metrics.
+    Evaluate model performance and save YAML report.
     """
-    f1s = f1_score(targets, predictions, average='micro')
+
+    f1s = f1_score(targets,predictions,average='micro')
+
     print(f"F1 (micro): {f1s:.4f}")
-    
-    acc = accuracy_score(targets, predictions)
+
+    acc = accuracy_score(targets,predictions)
+
     print(f"Accuracy: {acc:.4f}")
+
 
     reports = {}
 
+
     if t == "binary":
-        # AUC
-        auc = roc_auc_score(targets, proba, average="macro")
-        
-        # Sensitivity / Recall
-        recall = recall_score(targets, predictions, pos_label=1)
-        # Specificity: consideriamo la classe 0 come "positiva" per il calcolo del recall
-        spec = recall_score(targets, predictions, pos_label=0)
-        
-        # Balanced Accuracy
-        balanced = balanced_accuracy_score(targets, predictions)
+        auc_score = roc_auc_score(targets,proba,average="macro")
+        sensitivity = recall_score(targets,predictions,pos_label=1)
+        specificity = recall_score(targets,predictions,pos_label=0)
+        balanced = balanced_accuracy_score(targets,predictions)
+        cm = confusion_matrix(targets,predictions,normalize='true')
         print(f"Balanced accuracy: {balanced:.4f}")
-
-        print(f"AUC: {auc:.4f}")
-        print(f"Sensitivity (Recall): {recall:.4f}")
-        print(f"Specificity: {spec:.4f}")
-
-        reports["f1"] = float(f1s)
-        reports["auc"] = float(auc)
-        reports["recall"] = float(recall)
-        reports["balanced"] = float(balanced)
-        reports["specificity"] = float(spec)
-        
-        cm = confusion_matrix(targets, predictions, normalize='true')
+        print(f"AUC: {auc_score:.4f}")
+        print(f"Sensitivity: {sensitivity:.4f}")
+        print(f"Specificity: {specificity:.4f}")
         print(f"Confusion matrix:\n{cm}")
 
-    else:  #multiclass
+        reports["f1"] = float(f1s)
+        reports["auc"] = float(auc_score)
+        reports["sensitivity"] = float(sensitivity)
+        reports["specificity"] = float(specificity)
+        reports["balanced_accuracy"] = float(balanced)
+
+    else:
         n_classes = proba.shape[1]
-        class_names = ["Grade 2", "Grade 3", "Grade 4"]
-
-        # Confusion matrix normalized for visualization
+        class_names = ["Grade 2","Grade 3","Grade 4"]
         cm = confusion_matrix(targets,predictions,normalize='true')
-
-        # Raw confusion matrix for sensitivity/specificity calculation
-        cm_raw = confusion_matrix(targets, predictions)
+        cm_raw = confusion_matrix(targets,predictions)
 
 
         # ==========================
@@ -383,72 +367,81 @@ def evaluate_model(t, targets, predictions, proba):
         # ==========================
 
         f1_per_class = f1_score(targets,predictions,average=None)
+        sensitivity_per_class = recall_score(targets,predictions,average=None)
 
-        recall_per_class = recall_score(targets,predictions, average=None)
-
-
-        # Specificity per class
-        spec_per_class = []
-
+        specificity_per_class = []
         for i in range(n_classes):
+
             TP = cm_raw[i, i]
-            FN = cm_raw[i, :].sum() - TP
-            FP = cm_raw[:, i].sum() - TP
-            TN = cm_raw.sum() - (TP + FN + FP)
-            specificity = TN / (TN + FP) if (TN + FP) > 0 else 0
-            spec_per_class.append(specificity)
+            FN = (cm_raw[i, :].sum()- TP)
+
+            FP = (cm_raw[:, i].sum()- TP)
+
+            TN = (cm_raw.sum()-(TP + FN + FP))
 
 
+            spec = (
+                TN / (TN + FP)
+                if (TN + FP) > 0
+                else 0
+            )
+            specificity_per_class.append(float(spec))
 
-        # AUC per class
+
+        # ==========================
+        # AUC
+        # ==========================
+
         targets_bin = label_binarize(targets,classes=np.arange(n_classes))
 
-        auc_per_class = roc_auc_score(targets_bin,proba,multi_class="ovr",average=None)
 
+        auc_per_class = roc_auc_score(
+            targets_bin,
+            proba,
+            multi_class="ovr",
+            average=None
+        )
 
-        # ==========================
-        # Print per-class metrics
-        # ==========================
 
         print("\nPer-class metrics:")
 
-        for i, c in enumerate(class_names):
-            print(f"\n{c}")
-            print(f"  F1-score:     {f1_per_class[i]:.4f}")
-            print(f"  Sensitivity:  {recall_per_class[i]:.4f}")
-            print(f"  Specificity:  {spec_per_class[i]:.4f}")
-            print(f"  AUC (OvR):    {auc_per_class[i]:.4f}")
 
+        for i,c in enumerate(class_names):
+
+            print(f"\n{c}")
+            print(
+                f" F1:            {f1_per_class[i]:.4f}"
+            )
+            print(
+                f" Sensitivity:   {sensitivity_per_class[i]:.4f}"
+            )
+            print(
+                f" Specificity:   {specificity_per_class[i]:.4f}"
+            )
+            print(
+                f" AUC:           {auc_per_class[i]:.4f}"
+            )
 
 
         # ==========================
         # Global metrics
         # ==========================
-        f1_micro = f1_score( targets,predictions, average="micro")
+
+        f1_micro = f1_score(targets,predictions,average="micro")
         f1_macro = f1_score(targets,predictions,average="macro")
 
 
-        # Sensitivity macro
-        sensitivity_macro = np.mean(recall_per_class)
+        sensitivity_macro = np.mean(sensitivity_per_class)
+        specificity_macro = np.mean(specificity_per_class)
 
-
-        # Specificity macro
-        specificity_macro = np.mean(
-            spec_per_class
-        )
-
-
-
-        # Micro sensitivity/specificity
 
         TP = np.diag(cm_raw).sum()
 
-        FN = cm_raw.sum(axis=1).sum() - TP
+        FN = (cm_raw.sum(axis=1).sum()- TP)
 
-        FP = cm_raw.sum(axis=0).sum() - TP
+        FP = (cm_raw.sum(axis=0).sum() - TP)
 
-        TN = cm_raw.sum() - (TP + FN + FP)
-
+        TN = (cm_raw.sum()-(TP + FN + FP))
 
 
         sensitivity_micro = (
@@ -463,7 +456,6 @@ def evaluate_model(t, targets, predictions, proba):
             if (TN + FP) > 0
             else 0
         )
-
 
 
         auc_micro = roc_auc_score(
@@ -484,41 +476,94 @@ def evaluate_model(t, targets, predictions, proba):
 
 
         print("\nGlobal metrics:")
-        print(f"Accuracy:              {acc:.4f}")
-        print(f"F1 micro:              {f1_micro:.4f}")
-        print(f"F1 macro:              {f1_macro:.4f}")
-        print(f"Sensitivity macro:     {sensitivity_macro:.4f}")
-        print(f"Specificity macro:     {specificity_macro:.4f}")
-        print(f"Sensitivity micro:     {sensitivity_micro:.4f}")
-        print(f"Specificity micro:     {specificity_micro:.4f}")
-        print(f"AUC micro:             {auc_micro:.4f}")
-        print(f"AUC macro:             {auc_macro:.4f}")
 
+        print(
+            f"Accuracy:              {acc:.4f}"
+        )
+
+        print(
+            f"F1 micro:              {f1_micro:.4f}"
+        )
+
+        print(
+            f"F1 macro:              {f1_macro:.4f}"
+        )
+
+        print(
+            f"Sensitivity macro:     {sensitivity_macro:.4f}"
+        )
+
+        print(
+            f"Specificity macro:     {specificity_macro:.4f}"
+        )
+
+        print(
+            f"AUC micro:             {auc_micro:.4f}"
+        )
+
+        print(
+            f"AUC macro:             {auc_macro:.4f}"
+        )
 
 
         # ==========================
-        # Save YAML report
+        # YAML SAFE OUTPUT
         # ==========================
 
-        reports["f1_per_class"] = (f1_per_class.tolist())
 
-        reports["sensitivity_per_class"] = (recall_per_class)
+        reports["f1_per_class"] = [
+            float(x)
+            for x in f1_per_class
+        ]
 
-        reports["specificity_per_class"] = (spec_per_class)
 
-        reports["auc_per_class"] = (auc_per_class)
+        reports["sensitivity_per_class"] = [
+            float(x)
+            for x in sensitivity_per_class
+        ]
+
+
+        reports["specificity_per_class"] = [
+            float(x)
+            for x in specificity_per_class
+        ]
+
+
+        reports["auc_per_class"] = [
+            float(x)
+            for x in auc_per_class
+        ]
 
 
         reports["f1_micro"] = float(f1_micro)
+
         reports["f1_macro"] = float(f1_macro)
-        reports["sensitivity_macro"] = float(sensitivity_macro)
-        reports["specificity_macro"] = float(specificity_macro)
-        reports["sensitivity_micro"] = float(sensitivity_micro)
-        reports["specificity_micro"] = float(specificity_micro)
-        reports["auc_micro"] = float( auc_micro)
-        reports["auc_macro"] = float(auc_macro)
+
+        reports["sensitivity_macro"] = float(
+            sensitivity_macro
+        )
+
+        reports["specificity_macro"] = float(
+            specificity_macro
+        )
+
+        reports["sensitivity_micro"] = float(
+            sensitivity_micro
+        )
+
+        reports["specificity_micro"] = float(
+            specificity_micro
+        )
+
+        reports["auc_micro"] = float(
+            auc_micro
+        )
+
+        reports["auc_macro"] = float(
+            auc_macro
+        )
+
         reports["acc"] = float(acc)
-        reports["confusion_matrix"] = (cm.tolist())
 
 
 
@@ -526,23 +571,22 @@ def evaluate_model(t, targets, predictions, proba):
     # Plot confusion matrix
     # ==========================
 
-    plot_confusion_matrix(t,cm)
+    plot_confusion_matrix(t, cm)
 
 
     # ==========================
-    # Save results
+    # Save YAML
     # ==========================
 
-    path = f"../results/results_{t}.yaml"
-    with open(path, 'w') as file:
-        yaml.dump(
+    path = (f"../results/results_{t}.yaml")
+    with open(path, "w") as file:
+
+        yaml.safe_dump(
             reports,
             file,
-            sort_keys=False
+            sort_keys=False,
+            default_flow_style=False
         )
-
-
-    return 
 
 def plot_roc_curve(t, targets, proba):
 
