@@ -6,7 +6,7 @@ import cpuinfo
 import numpy as np
 import torch
 import pandas as pd
-from AttnFuseNet import AggregatorConvClassifier,train_binary,predict_binary,train_multiclass,predict_multiclass
+from AttnFuseNet import AggregatorConvClassifier, predict_binary, predict_multiclass
 import matplotlib.pyplot as plt
 from collections import Counter
 from torch.utils.data import DataLoader, TensorDataset,WeightedRandomSampler
@@ -500,7 +500,8 @@ def evaluate_model(t, targets, predictions, proba):
         # Save YAML report
         # ==========================
 
-        reports["f1_per_class"] = (f1_per_class)
+        reports["f1_per_class"] = (f1_per_class.tolist())
+
         reports["sensitivity_per_class"] = (recall_per_class)
 
         reports["specificity_per_class"] = (spec_per_class)
@@ -622,39 +623,28 @@ def plot_confusion_matrix(t, cm):
     plt.close()
 
 def main():
-    """
-    Main entry point of the program.
 
-    It performs the following steps:
-    1. Identify the device to use for computation.
-    2. Parse the command line arguments.
-    3. Print information about the device and the classification task.
-    4. Split the data into training and testing sets.
-    5. Plot the distribution of the data.
-    6. Create a model and move it to the device.
-    7. Train the model on the training data.
-    8. Evaluate the model on the testing data.
-    9. Plot the ROC curve of the model.
-    """
     device, dev_name = identify_device()
     t = parse_args()
     print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
     print(f"Using {device} - {dev_name}")
-    print(f"AttnFuseNet Glioma Grade Prediction")
-    print(f"Dataset: UCSF")
+    print(f"Testing AttnFuseNet Glioma Grade Prediction")
+    print(f"Dataset: UCSF test set")
     print(f"Classification task: {t}")
+    print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
     train_data, test_data = create_train_test_split(t)
     plot_data_dist(train_data[1], test_data[1], t)
     nclasses = 2 if t == "binary" else 3
     model = AggregatorConvClassifier(input_features=d_model, conv_out=conv_out, hidden_dim=hidden_DIM, n_heads=n_head, n_classes=nclasses).to(device)
-    print(model)
     train_loader, test_loader = create_loaders(train_data, test_data)
     
     if t == "binary":
-        model = train_binary(device, model, train_loader, epochs, lr=1e-3)
+        path = f"../models/AttnFuseNet_binary.pt"
+        model.load_state_dict(torch.load(path, map_location=device))
         preds, probs = predict_binary(device, model, test_loader)
     else:
-        model = train_multiclass(device, model, train_loader, epochs, lr=1e-3)
+        path = f"../models/AttnFuseNet_multiclass.pt"
+        model.load_state_dict(torch.load(path, map_location=device))
         preds, probs = predict_multiclass(device, model, test_loader)
     
     evaluate_model(t, test_data[1], preds, probs)

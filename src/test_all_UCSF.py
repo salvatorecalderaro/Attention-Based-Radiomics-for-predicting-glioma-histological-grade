@@ -14,6 +14,8 @@ from sklearn.metrics import f1_score,roc_auc_score,recall_score,accuracy_score,b
 from sklearn.preprocessing import label_binarize
 import yaml
 
+from test_UCSF_testset import PLOTS_DIR, RESULTS_DIR
+
 
 seed = 2025
 d_model = 107
@@ -27,6 +29,12 @@ dpi = 1000
 
 
 plt.rcParams["text.usetex"] = True
+
+RESULTS_DIR = "../results"
+os.makedirs(RESULTS_DIR, exist_ok=True)
+
+PLOTS_DIR = "../plots"
+os.makedirs(PLOTS_DIR, exist_ok=True)
 
 def parse_args():
     """
@@ -216,7 +224,7 @@ def load_net(device,t):
         net  = AggregatorConvClassifier(input_features=d_model, conv_out=conv_out, hidden_dim=hidden_DIM, n_heads=n_head, n_classes=nclasses).to(device)
 
     net.to(device)
-    net.load_state_dict(torch.load(f"../models/AttnFuseNet_{t}.pt"))
+    net.load_state_dict(torch.load(f"../models/AttnFuseNet_{t}.pt", map_location=device))
     return net
 
 
