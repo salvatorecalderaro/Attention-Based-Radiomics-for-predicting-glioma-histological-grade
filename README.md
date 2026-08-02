@@ -108,6 +108,38 @@ python test_all_UCSF.py -c binary or multiclass
 
 - `-t` or `--task`: Type of classification task to perform (either "binary" or "multiclass").
 
+If you use this model, please cite:
+```
+@InProceedings{10.1007/978-3-032-31927-2_2,
+author="Amato, Domenico
+and Caruso Bavisotto, Celeste
+and Calderaro, Salvatore
+and Lo Bosco, Giosu{\`e}
+and Palazzotto, Francesca Maria
+and Rizzo, Riccardo
+and Veiceschi, Pierlorenzo
+and Vella, Filippo",
+editor="De Marsico, Maria
+and Ho, Tin Kam
+and Jurie, Frederic
+and Liu, Cheng-Lin
+and Lopresti, Daniel
+and Nystr{\"o}m, Ingela
+and Ogier, Jean-Marc
+and Ross, Arun
+and Wang, Liang",
+title="Attention-Based Radiomics to Predict Histological Grade of Gliomas",
+booktitle="Pattern Recognition",
+year="2027",
+publisher="Springer Nature Switzerland",
+address="Cham",
+pages="17--31",
+isbn="978-3-032-31927-2"
+}
+
+
+```
+
 ## Contact 
 For questions, feedback, or collaboration opportunities, please contact:
 📧 salvatore.calderaro01@unipa.it
