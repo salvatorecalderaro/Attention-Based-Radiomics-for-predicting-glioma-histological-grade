@@ -1,4 +1,4 @@
-# Attention-Based Glioma Histological Grading ![badge](labelRL.svg)
+# Attention-Based Glioma Histological Grading <img src="labelRL.svg" width="120" alt="badge">
 
 This repository contains the implementation of an attention-based deep learning framework for automatic glioma histological grade classification using multimodal MRI radiomic features, in accordance with the World Health Organization (WHO) criteria.
 
