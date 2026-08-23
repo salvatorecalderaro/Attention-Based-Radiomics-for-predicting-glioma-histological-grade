@@ -108,6 +108,8 @@ python test_all_UCSF.py -c binary or multiclass
 
 - `-t` or `--task`: Type of classification task to perform (either "binary" or "multiclass").
 
+## Citation
+[![DOI](https://img.shields.io/badge/DOI-10.1007%2F978--3--032--31927--2__2-blue)](https://doi.org/10.1007/978-3-032-31927-2_2)
 If you use this model in your research, please cite:
 ```
 @InProceedings{10.1007/978-3-032-31927-2_2,
