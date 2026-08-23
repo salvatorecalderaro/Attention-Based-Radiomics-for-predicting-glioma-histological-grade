@@ -109,20 +109,43 @@ python test_all_UCSF.py -c binary or multiclass
 - `-t` or `--task`: Type of classification task to perform (either "binary" or "multiclass").
 
 ## Citation
+
 [![DOI](https://img.shields.io/badge/DOI-10.1007%2F978--3--032--31927--2__2-blue)](https://doi.org/10.1007/978-3-032-31927-2_2)
 
 If you use this model in your research, please cite:
-```
-Amato, D., Caruso Bavisotto, C., Calderaro, S., Lo Bosco, G., Palazzotto, F. M., Rizzo, R., ... & Vella, F. (2026, August). Attention-Based Radiomics to Predict Histological Grade of Gliomas. In International Conference on Pattern Recognition (pp. 17-31). Cham: Springer Nature Switzerland.
-```
 
- <details>
+> Amato, D., Caruso Bavisotto, C., Calderaro, S., Lo Bosco, G., Palazzotto, F. M., Rizzo, R., Veiceschi, P., & Vella, F. (2026, August). Attention-Based Radiomics to Predict Histological Grade of Gliomas. In *International Conference on Pattern Recognition* (pp. 17–31). Cham: Springer Nature Switzerland.
+
+<details>
 <summary><b>BibTeX</b></summary>
 
 ```bibtex
-
+@InProceedings{Amato2027RadiomicsGliomas,
+  author    = {Amato, Domenico and
+               Caruso Bavisotto, Celeste and
+               Calderaro, Salvatore and
+               Lo Bosco, Giosu{\'e} and
+               Palazzotto, Francesca Maria and
+               Rizzo, Riccardo and
+               Veiceschi, Pierlorenzo and
+               Vella, Filippo},
+  editor    = {De Marsico, Maria and
+               Ho, Tin Kam and
+               Jurie, Frederic and
+               Liu, Cheng-Lin and
+               Lopresti, Daniel and
+               Nystr{\"o}m, Ingela and
+               Ogier, Jean-Marc and
+               Ross, Arun and
+               Wang, Liang},
+  title     = {Attention-Based Radiomics to Predict Histological Grade of Gliomas},
+  booktitle = {Pattern Recognition},
+  year      = {2027},
+  publisher = {Springer Nature Switzerland},
+  address   = {Cham},
+  pages     = {17--31},
 }
-
+```
 
 ## Contact 
 For questions, feedback, or collaboration opportunities, please contact:
