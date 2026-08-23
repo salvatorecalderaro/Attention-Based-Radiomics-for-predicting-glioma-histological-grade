@@ -1,0 +1,25 @@
+@InProceedings{10.1007/978-3-032-31927-2_2,
+author="Amato, Domenico
+and Caruso Bavisotto, Celeste
+and Calderaro, Salvatore
+and Lo Bosco, Giosu{\`e}
+and Palazzotto, Francesca Maria
+and Rizzo, Riccardo
+and Veiceschi, Pierlorenzo
+and Vella, Filippo",
+editor="De Marsico, Maria
+and Ho, Tin Kam
+and Jurie, Frederic
+and Liu, Cheng-Lin
+and Lopresti, Daniel
+and Nystr{\"o}m, Ingela
+and Ogier, Jean-Marc
+and Ross, Arun
+and Wang, Liang",
+title="Attention-Based Radiomics to Predict Histological Grade of Gliomas",
+booktitle="Pattern Recognition",
+year="2027",
+publisher="Springer Nature Switzerland",
+address="Cham",
+pages="17--31"
+}
